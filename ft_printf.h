@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:41:58 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/03 17:57:05 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/03 21:33:29 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 # define NUMARR "0123456789ABCDEF"
 # define INTMAX 2147483647
@@ -51,16 +52,18 @@ typedef struct s_data
 	long long		margin_space;
 	long long		margin_zero;
 	long long		print_ret;
+	long long		value;
+	unsigned long	p_value;
 }					t_data;
 
 void	pf_putchar(char c, t_data *data);
 void	pf_putstr(char *s, t_data *data);
 void	pf_strlen(char *s, t_data *data);
-void	pf_intlen(long long num, t_data *data);
-void	calculate_space_zero(long long num, t_data *data);
-void	print_minus_on(long long num, t_data *data);
-void	print_minus_off(long long num, t_data *data);
-void	print_diuxp(long long num, t_data *data);
+void	pf_intlen(t_data *data);
+void	calculate_space_zero(t_data *data);
+void	print_minus_on(t_data *data);
+void	print_minus_off(t_data *data);
+void	print_diuxp(t_data *data);
 void	prepare_diuxp(va_list ap, t_data *data);
 void	print_percent(t_data *data);
 void	print_char(va_list ap, t_data *data);

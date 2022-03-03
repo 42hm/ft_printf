@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:48:00 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/03 17:56:19 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/03 21:24:30 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,30 @@ void	pf_strlen(char *s, t_data *data)
 		data->len++;
 }
 
-void	pf_intlen(long long num, t_data *data)
+void	pf_intlen(t_data *data)
 {
-	if (num < 0)
-		num *= -1;
-	if (num >= 0 && num < 10)
+	long long		temp;
+	unsigned long	p_temp;
+
+	temp = data->value;
+	p_temp = data->p_value;
+	if (temp < 0)
+		temp *= -1;
+	if ((temp >= 0 && temp < 10) && (p_temp >= 0 && p_temp < 10))
 		data->len = 1;
+	else if (data->type == POINTER)
+	{
+		while (p_temp != 0)
+		{
+			p_temp /= data->base;
+			data->len++;
+		}
+	}
 	else
 	{
-		while (num != 0)
+		while (temp != 0)
 		{
-			num /= data->base;
+			temp /= data->base;
 			data->len++;
 		}
 	}

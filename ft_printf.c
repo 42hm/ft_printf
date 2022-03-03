@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 16:46:43 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/03 17:51:36 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/03 21:33:39 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	initialization(t_data *data)
 	data->len = 0;
 	data->margin_space = 0;
 	data->margin_zero = 0;
+	data->value = 0;
+	data->p_value = 0;
 }
 
 void	parse_start(const char *str, va_list ap, t_data *data)
