@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:48:00 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/03 21:24:30 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/03 23:14:02 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ void	pf_putchar(char c, t_data *data)
 	}
 }
 
-void	pf_putstr(char *s, t_data *data)
+void	pf_putstr(char *s, t_info *info, t_data *data)
 {
 	if (data->prec > 0 && data->len < data->prec)
 		data->print_ret += write(1, s, data->len);
 	else if (data->prec > 0 && data->len > data->prec)
 		data->print_ret += write(1, s, data->prec);
-	else if (data->type == POINTER || data->hash == ON)
+	else if (info->type == POINTER || info->hash == ON)
 		data->print_ret += write(1, s, 2);
 	else
 		data->print_ret += write(1, s, data->len);
 }
 
-void	pf_strlen(char *s, t_data *data)
+void	pf_strlen(char *s, t_info *info, t_data *data)
 {
-	if ((data->dot == ON) && (data->prec == OFF))
+	if ((info->dot == ON) && (data->prec == OFF))
 		return ;
 	while (s[data->len] != 0)
 		data->len++;
 }
 
-void	pf_intlen(t_data *data)
+void	pf_intlen(t_info *info, t_data *data)
 {
 	long long		temp;
 	unsigned long	p_temp;
@@ -53,11 +53,11 @@ void	pf_intlen(t_data *data)
 		temp *= -1;
 	if ((temp >= 0 && temp < 10) && (p_temp >= 0 && p_temp < 10))
 		data->len = 1;
-	else if (data->type == POINTER)
+	else if (info->type == POINTER)
 	{
 		while (p_temp != 0)
 		{
-			p_temp /= data->base;
+			p_temp /= info->base;
 			data->len++;
 		}
 	}
@@ -65,7 +65,7 @@ void	pf_intlen(t_data *data)
 	{
 		while (temp != 0)
 		{
-			temp /= data->base;
+			temp /= info->base;
 			data->len++;
 		}
 	}
