@@ -6,7 +6,7 @@
 #    By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 22:57:09 by hmoon             #+#    #+#              #
-#    Updated: 2022/03/04 09:37:58 by hmoon            ###   ########.fr        #
+#    Updated: 2022/03/04 23:11:48 by hmoon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ else
 		INCLUDE_DIR		= $(SRCS_DIR)
 endif
 
-$(NAME)	: $(OBJ_FILE) $(INCLUDE_FILE)
+$(NAME)	: $(OBJ_FILE)
 		$(AR) $(NAME) $(OBJ_FILE)
 
 
