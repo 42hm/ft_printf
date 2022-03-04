@@ -6,7 +6,7 @@
 #    By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 22:57:09 by hmoon             #+#    #+#              #
-#    Updated: 2022/03/04 09:10:16 by hmoon            ###   ########.fr        #
+#    Updated: 2022/03/04 09:19:35 by hmoon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,9 @@ endif
 $(NAME) : $(OBJ_FILE) $(INCLUDE_FILE)
 	$(AR) $(NAME) $(OBJ_FILE)
 
+
 %.o : %.c
-	$(CC) $(CFLAGS) -I$(INCLUDE_FILE) -c $< -o $@
+	$(CC) $(CFLAGS) -include $(INCLUDE_FILE) -c $< -o $@
 
 .PHONY: all
 all : $(NAME)

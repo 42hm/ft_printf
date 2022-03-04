@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:41:58 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/04 06:12:18 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/04 09:24:00 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdarg.h>
 # include <unistd.h>
-# include <stdlib.h>
 
 # define NUMARR "0123456789ABCDEF"
 # define INTMAX 2147483647

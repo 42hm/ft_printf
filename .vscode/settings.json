@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"*.html": "html",
+		"iterator": "c",
+		"memory": "c"
+	}
+}
