@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:41:58 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/05 04:18:13 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 07:03:41 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <stdlib.h>
 
 # define NUMARR		"0123456789ABCDEF"
+
+# define INTMAX		2147483647
+# define ERROR		-1
 
 # define MINUS		1
 # define HASH		2
@@ -42,6 +45,7 @@ typedef struct s_info
 	unsigned char	type;
 	unsigned char	flag;
 	unsigned int	base;
+	unsigned int	type_count;
 }					t_info;
 
 typedef struct s_data
@@ -57,9 +61,27 @@ typedef struct s_data
 	unsigned long	p_value;
 }					t_data;
 
+typedef struct s_node
+{
+	unsigned char	data;
+	struct s_node	*next;
+}					t_node;
+
+typedef struct s_queue
+{
+	t_node			*front;
+	t_node			*rear;
+	int				count;
+}					t_queue;
+
 void	initialization(t_info *info, t_data *data);
-void	parse_start(const char *str, va_list ap, t_info *info, t_data *data);
+void	parse_start(const char *str, va_list ap, t_data *data);
 int		ft_printf(const char *str, ...);
+
+void	dequeue(t_queue *queue, t_data *data);
+void	printqueue(t_queue *queue, t_data *data, t_info *info);
+void	enqueue(char str, t_queue *queue, t_data *data);
+void	initqueue(t_queue *queue);
 
 void	parse_type(const char **str, va_list ap, t_info *info, t_data *data);
 void	parse_precision_width(const char **str, t_info *info, t_data *data);

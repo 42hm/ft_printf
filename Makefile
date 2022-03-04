@@ -6,7 +6,7 @@
 #    By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 22:57:09 by hmoon             #+#    #+#              #
-#    Updated: 2022/03/05 00:24:26 by hmoon            ###   ########.fr        #
+#    Updated: 2022/03/05 07:39:26 by hmoon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RM			:= rm -f
 AR			:= ar rcs
 
 SRCS_DIR	:= ./
-SRCS_NAME	:= ft_printf.c \
+SRCS_NAME	:= ft_printf.c queue.c \
 				parse.c csp_util.c \
 				print_cs.c diuxp_util.c \
 				print_diuxp.c
@@ -25,7 +25,7 @@ SRCS		:= $(addprefix $(SRCS_DIR),$(SRCS_NAME))
 OBJS		:= ${SRCS:.c=.o}
 
 BONUS_DIR	:= ./bonus/
-BONUS_NAME	:= ft_printf_bonus.c \
+BONUS_NAME	:= ft_printf_bonus.c queue_bonus.c \
 				parse_bonus.c csp_util_bonus.c \
 				print_cs_bonus.c diuxp_util_bonus.c \
 				print_diuxp_bonus.c
