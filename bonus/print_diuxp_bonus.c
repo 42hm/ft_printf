@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:44:33 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/04 06:11:09 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 01:08:02 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	print_num(t_info *info, t_data *data)
 {
+	int	i;
+
+	i = 0;
 	if (data->value != 0 || data->p_value != 0)
 	{
 		if (data->value < 0)
@@ -22,53 +25,53 @@ void	print_num(t_info *info, t_data *data)
 		{
 			if (info->type == POINTER)
 			{
-				data->arr[data->i++] = (NUMARR[data->p_value % info->base]) | \
-				info->lower;
+				data->arr[i++] = (NUMARR[data->p_value % info->base]) | \
+				(info->flag & LOWER);
 				data->p_value = data->p_value / info->base;
 			}
 			else
 			{
-				data->arr[data->i++] = (NUMARR[data->value % info->base]) | \
-				info->lower;
+				data->arr[i++] = (NUMARR[data->value % info->base]) | \
+				(info->flag & LOWER);
 				data->value = data->value / info->base;
 			}
 		}
-		while (data->i-- > 0)
-			pf_putchar(data->arr[data->i], data);
+		while (i-- > 0)
+			pf_putchar(data->arr[i], data);
 	}
 }
 
 void	print_null_zero(t_info *info, t_data *data)
 {
-	if (info->dot == ON && data->value == 0 && data->prec == 0)
+	if ((info->flag & DOT) && data->value == 0 && data->prec == 0)
 		return ;
-	if (data->value == 0 && (info->dot == OFF || data->prec > 0) \
+	if (data->value == 0 && (!(info->flag & DOT) || data->prec > 0) \
 		&& data->p_value == 0)
 		pf_putchar('0', data);
 }
 
 void	print_diuxp(t_info *info, t_data *data)
 {
-	while (data->margin_space-- > 0 && info->minus == OFF)
+	while (data->margin_space-- > 0 && !(info->flag & MINUS))
 		pf_putchar(' ', data);
-	if (info->plus == ON || info->space == ON || data->value < 0)
+	if ((info->flag & PLUS) || (info->flag & SPACE) || data->value < 0)
 	{
-		if (info->plus == ON && data->value >= 0)
+		if ((info->flag & PLUS) && data->value >= 0)
 			pf_putchar('+', data);
-		else if (info->space == ON && data->value >= 0)
+		else if ((info->flag & SPACE) && data->value >= 0)
 			pf_putchar(' ', data);
 		else if (info->base == 10 && data->value < 0)
 			pf_putchar('-', data);
 	}
-	if (info->type == HEX_CAP && info->hash == ON && data->value != 0)
+	if (info->type == HEX_CAP && (info->flag & HASH) && data->value != 0)
 		pf_putstr("0X", info, data);
-	else if (info->type == POINTER || (info->hash == ON && data->value != 0))
+	else if (info->type == POINTER || ((info->flag & HASH) && data->value != 0))
 		pf_putstr("0x", info, data);
 	while (data->margin_zero-- > 0)
 		pf_putchar('0', data);
 	print_null_zero(info, data);
 	print_num(info, data);
-	if (info->minus == ON)
+	if (info->flag & MINUS)
 	{
 		while (data->margin_space-- >= 0)
 			pf_putchar(' ', data);
@@ -77,7 +80,7 @@ void	print_diuxp(t_info *info, t_data *data)
 
 void	calculate_space_zero(t_info *info, t_data *data)
 {
-	if ((info->plus == ON || info->space == ON || data->value < 0) \
+	if (((info->flag & PLUS) || (info->flag & SPACE) || data->value < 0) \
 		&& (data->width > data->len) && info->base == 10)
 		data->width -= 1;
 	if (data->len > data->width && data->len >= data->prec)
@@ -91,10 +94,10 @@ void	calculate_space_zero(t_info *info, t_data *data)
 	}
 	if (data->width > data->prec && data->len >= data->prec)
 	{
-		if ((data->len == 1 && info->dot == ON && data->prec == 0) \
+		if ((data->len == 1 && (info->flag & DOT) && data->prec == 0) \
 			&& (data->value == 0 && data->p_value == 0))
 			data->margin_space = data->width;
-		else if (info->zero == ON && info->dot == OFF)
+		else if ((info->flag & ZERO) && !(info->flag & DOT))
 			data->margin_zero = data->width - data->len;
 		else
 			data->margin_space = data->width - data->len;
@@ -107,7 +110,7 @@ void	prepare_diuxp(va_list ap, t_info *info, t_data *data)
 		data->value = va_arg(ap, int);
 	else if (info->type == POINTER)
 	{
-		info->lower = 32;
+		info->flag |= LOWER;
 		info->base = 16;
 		data->width -= 2;
 		data->p_value = (unsigned long)va_arg(ap, void *);
@@ -117,7 +120,7 @@ void	prepare_diuxp(va_list ap, t_info *info, t_data *data)
 		if (info->type == HEX_CAP || info->type == HEX_LOW)
 		{
 			if (info->type == HEX_LOW)
-				info->lower = 32;
+				info->flag |= LOWER;
 			info->base = 16;
 		}
 		data->value = va_arg(ap, unsigned int);

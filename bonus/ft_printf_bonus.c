@@ -6,28 +6,17 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 16:46:43 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/04 06:11:31 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 01:18:54 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-void	initialization_info(t_info *info)
+void	initialization(t_info *info, t_data *data)
 {
 	info->type = 0;
-	info->minus = 0;
-	info->plus = 0;
-	info->space = 0;
-	info->zero = 0;
-	info->hash = 0;
-	info->lower = 0;
+	info->flag = 0;
 	info->base = 10;
-	info->dot = 0;
-}
-
-void	initialization_data(t_data *data)
-{
-	data->i = 0;
 	data->width = 0;
 	data->prec = 0;
 	data->len = 0;
@@ -41,8 +30,7 @@ void	parse_start(const char *str, va_list ap, t_info *info, t_data *data)
 {
 	while (*str != 0)
 	{
-		initialization_info(info);
-		initialization_data(data);
+		initialization(info, data);
 		if (*str == '%')
 		{
 			str++;
@@ -51,11 +39,7 @@ void	parse_start(const char *str, va_list ap, t_info *info, t_data *data)
 			parse_type(&str, ap, info, data);
 		}
 		else
-		{
-			if (data->print_ret == ERROR)
-				break ;
 			pf_putchar(*(str)++, data);
-		}
 	}
 }
 

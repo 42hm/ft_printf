@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:45:31 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/04 06:12:49 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 01:18:47 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,15 @@ void	parse_type(const char **str, va_list ap, t_info *info, t_data *data)
 
 void	parse_precision_width(const char **str, t_info *info, t_data *data)
 {
-	long long	error;
-
 	while (**str >= '0' && **str <= '9')
 		data->width = (data->width * 10) + *((*str)++) - '0';
 	if (**str == '.')
 	{
-		info->dot = ON;
+		info->flag |= DOT;
 		(*str)++;
 		while (**str >= '0' && **str <= '9')
 			data->prec = (data->prec * 10) + *((*str)++) - '0';
 	}
-	error = data->width + data->prec + info->hash + data->print_ret;
-	if (error > INTMAX)
-		data->print_ret = ERROR;
 }
 
 void	parse_flag(const char **str, t_info *info)
@@ -51,22 +46,22 @@ void	parse_flag(const char **str, t_info *info)
 		|| **str == ' ' || **str == '+')
 	{
 		if (**str == '#')
-			info->hash = ON;
+			info->flag |= HASH;
 		else if (**str == '-')
-			info->minus = ON;
+			info->flag |= MINUS;
 		else if (**str == '0')
 		{
-			info->zero = ON;
-			if (info->zero == ON && info->minus == ON)
-				info->zero = OFF;
+			info->flag |= ZERO;
+			if ((info->flag & ZERO) && (info->flag & MINUS))
+				info->flag &= ~ZERO;
 		}
 		else if (**str == ' ')
-			info->space = ON;
+			info->flag |= SPACE;
 		else if (**str == '+')
 		{
-			info->plus = ON;
-			if (info->space == ON)
-				info->space = OFF;
+			info->flag |= PLUS;
+			if (info->flag & SPACE)
+				info->flag &= ~SPACE;
 		}
 		(*str)++;
 	}
