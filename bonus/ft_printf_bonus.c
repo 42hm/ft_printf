@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 16:46:43 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/05 07:01:16 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 08:00:56 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,45 @@ void	initialization(t_info *info, t_data *data)
 	data->p_value = 0;
 }
 
-void	parse_start(const char *str, va_list ap, t_data *data)
+void	parse_start(const char *str, va_list ap, t_info *info, t_data *data)
 {
-	t_info	info;
 	t_queue	queue;
 
-	info.type_count = 0;
 	initqueue(&queue);
 	while (*str != 0)
 	{
-		initialization(&info, data);
+		initialization(info, data);
 		if (*str == '%')
 		{
 			str++;
-			parse_flag(&str, &info);
-			parse_precision_width(&str, &info, data);
-			printqueue(&queue, data, &info);
+			parse_flag(&str, info);
+			parse_precision_width(&str, info, data);
+			printqueue(&queue, data, info);
 			if (data->print_ret == ERROR)
 				return ;
-			parse_type(&str, ap, &info, data);
+			parse_type(&str, ap, info, data);
 		}
 		else
+		{
 			enqueue(*(str)++, &queue, data);
+			if (data->print_ret == ERROR)
+				return ;
+		}
 	}
-	if (!info.type_count || queue.count)
-		printqueue(&queue, data, &info);
+	if (!info->type_count || queue.count)
+		printqueue(&queue, data, info);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	ap;
 	t_data	data;
+	t_info	info;
 
 	data.print_ret = 0;
+	info.type_count = 0;
 	va_start(ap, str);
-	parse_start(str, ap, &data);
+	parse_start(str, ap, &info, &data);
 	va_end(ap);
-	return ((int)data.print_ret);
+	return (data.print_ret);
 }

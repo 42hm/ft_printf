@@ -6,7 +6,7 @@
 /*   By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:41:58 by hmoon             #+#    #+#             */
-/*   Updated: 2022/03/05 07:03:41 by hmoon            ###   ########.fr       */
+/*   Updated: 2022/03/05 08:02:04 by hmoon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ typedef struct s_info
 typedef struct s_data
 {
 	char			arr[21];
+	int				print_ret;
 	long long		width;
 	long long		prec;
 	long long		len;
 	long long		margin_space;
 	long long		margin_zero;
-	long long		print_ret;
 	long long		value;
 	unsigned long	p_value;
 }					t_data;
@@ -75,7 +75,7 @@ typedef struct s_queue
 }					t_queue;
 
 void	initialization(t_info *info, t_data *data);
-void	parse_start(const char *str, va_list ap, t_data *data);
+void	parse_start(const char *str, va_list ap, t_info *info, t_data *data);
 int		ft_printf(const char *str, ...);
 
 void	dequeue(t_queue *queue, t_data *data);
