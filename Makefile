@@ -6,7 +6,7 @@
 #    By: hmoon <hmoon@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 22:57:09 by hmoon             #+#    #+#              #
-#    Updated: 2022/03/04 09:19:35 by hmoon            ###   ########.fr        #
+#    Updated: 2022/03/04 09:37:58 by hmoon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,38 +30,35 @@ BONUS_NAME	:= ft_printf_bonus.c \
 BONUS_SRCS	:= $(addprefix $(BONUS_DIR),$(BONUS_NAME))
 BONUS_OBJS	:= ${BONUS_SRCS:.c=.o}
 
-INCLUDE		:= $(SRCS_DIR)ft_printf.h
-INCLUDE_B	:= $(BONUS_DIR)ft_printf_bonus.h
-
 ifdef PRINTF_BONUS
-		OBJ_FILE = $(BONUS_OBJS)
-		INCLUDE_FILE = $(INCLUDE_B)
+		OBJ_FILE		= $(BONUS_OBJS)
+		INCLUDE_DIR		= $(BONUS_DIR)
 else
-		OBJ_FILE = $(OBJS)
-		INCLUDE_FILE = $(INCLUDE)
+		OBJ_FILE		= $(OBJS)
+		INCLUDE_DIR		= $(SRCS_DIR)
 endif
 
-$(NAME) : $(OBJ_FILE) $(INCLUDE_FILE)
-	$(AR) $(NAME) $(OBJ_FILE)
+$(NAME)	: $(OBJ_FILE) $(INCLUDE_FILE)
+		$(AR) $(NAME) $(OBJ_FILE)
 
 
-%.o : %.c
-	$(CC) $(CFLAGS) -include $(INCLUDE_FILE) -c $< -o $@
+%.o		: %.c
+		$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-.PHONY: all
-all : $(NAME)
+.PHONY	: all
+all		: $(NAME)
 
-.PHONY : bonus
-bonus :
+.PHONY	: bonus
+bonus	:
 		@make PRINTF_BONUS=1 all
 
-.PHONY : clean
-clean :
-	$(RM) $(OBJS) $(BONUS_OBJS)
+.PHONY	: clean
+clean	:
+		$(RM) $(OBJS) $(BONUS_OBJS)
 
-.PHONY : fclean
-fclean : clean
-	$(RM) $(NAME)
+.PHONY	: fclean
+fclean	: clean
+		$(RM) $(NAME)
 
-.PHONY : re
-re : fclean all
+.PHONY	: re
+re		: fclean all
